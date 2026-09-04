@@ -1,9 +1,9 @@
 :root {
-  font-family: Inter, 'Segoe UI', sans-serif;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #1b2b3a;
-  background: #f6fbff;
+  background: #fbfdfc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,7 +21,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #f6fbff;
+  background: #fbfdfc;
 }
 
 button,

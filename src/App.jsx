@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import logoImage from './um_co_cma_log1.jpg'
+import logoImage from './assets/2.png'
 
 const navItems = ['Services', 'Pricing', 'Resources', 'About']
 
@@ -53,19 +53,25 @@ const reasons = [
 
 const testimonials = [
   {
-    quote: 'The team guided me through the requirements as a first-time filer and made the entire process smooth and stress-free.',
-    name: 'Hamza Reza',
-    role: 'Befiler client · 8 months ago',
+    quote: 'Excellent services received. Recommended for income tax filing & tax services.',
+    name: 'Hasnat Sherzad',
+    initials: 'HS',
+    image: 'https://lh3.googleusercontent.com/a-/ALV-UjVbuE6XZXescQ4_R3lRs9EzzCpS8ZNBjhF9zsufRFbilgIMcUY9=w96-h96-p-rp-mo-br100',
+    role: 'Google review · a week ago',
   },
   {
-    quote: 'Samrah was professional, patient, and responsive throughout my tax filing. Everything was submitted on time.',
-    name: 'Amir Hamza',
-    role: 'Befiler client · 8 months ago',
+    quote: 'I had an excellent experience working with UM&CO. He helped me save more than 50% of my taxes and clearly explained where I was overpaying, in a way that was very easy to understand. He was always available whenever I needed guidance and handled everything with professionalism and patience.',
+    name: 'Sibtain Shah',
+    initials: 'SS',
+    image: 'https://lh3.googleusercontent.com/a/ACg8ocI_txwrsD1-TGKilS3vYhSM7sRznw4HN0jFPbDsHR_EsdfOkQ=w96-h96-p-rp-mo-br100',
+    role: 'Google review · 8 months ago',
   },
   {
-    quote: 'The support team understood my issue quickly and resolved it within a day. I truly appreciated their efficiency.',
-    name: 'Sehrish Alvi',
-    role: 'Befiler client · 8 months ago',
+    quote: 'I had an excellent experience working with this firm. Their team is highly professional, knowledgeable, and attentive to detail. They handled my financial matters with great accuracy and ensured full compliance with all regulatory requirements.',
+    name: 'Azhar Uddin',
+    initials: 'AU',
+    image: 'https://lh3.googleusercontent.com/a-/ALV-UjWiOVf5joV-IMyAP8gk0DPtPuv0ib_SNB8pFlbUl6XkFCwliVlS=w96-h96-p-rp-mo-br100',
+    role: 'Google review · 4 months ago',
   },
 ]
 
@@ -80,8 +86,14 @@ const pageDetails = {
   Services: {
     label: 'Services',
     title: 'Tax support for every stage of your financial journey.',
-    intro: 'Choose the service that matches your needs and get practical guidance from registration through filing and compliance.',
-    items: services.map((service) => ({ title: service.title, text: service.text, detail: service.detail })),
+    intro: 'Choose the service that matches your needs and get practical guidance from registration through filing, business compliance, and tax planning.',
+    items: [
+      ...services.map((service) => ({ title: service.title, text: service.text, detail: service.detail })),
+      { title: 'Sales Tax Registration', text: 'Register your business for sales tax and keep your records aligned with filing requirements.', detail: 'Registration, profile setup, and return guidance.' },
+      { title: 'Company Registration', text: 'Set up your company with practical support for registration documents and compliance obligations.', detail: 'A clear start for new and growing businesses.' },
+      { title: 'Intellectual Property', text: 'Protect your brand, name, and original work with guidance through the relevant registration process.', detail: 'Support for trademarks and business assets.' },
+      { title: 'USA LLC & Tax Filing', text: 'Get support for USA LLC setup and related tax filing needs when you operate across borders.', detail: 'Guidance for overseas founders and businesses.' },
+    ],
   },
   Pricing: {
     label: 'Pricing',
@@ -106,7 +118,7 @@ const pageDetails = {
   About: {
     label: 'About',
     title: 'A clearer way to manage tax and compliance.',
-    intro: 'Inspired by the service model described on Befiler.com, this page brings filing, registration, review, and support into one simple experience.',
+    intro: 'UM&CO brings tax filing, registration, review, and financial support into one clear experience for individuals, entrepreneurs, and growing businesses.',
     items: [
       { title: 'Compliance-first', text: 'Every filing starts with a careful review of your information and supporting documents.', detail: 'Clear records reduce surprises later.' },
       { title: 'Human guidance', text: 'Get understandable explanations instead of being left alone with complex forms.', detail: 'Ask questions at each step.' },
@@ -115,13 +127,200 @@ const pageDetails = {
   },
 }
 
+const planDetails = {
+  'Essential Filing': {
+    price: 'PKR 3,900',
+    summary: 'Best for regular tax return filing and routine cases.',
+    timing: '48 hours to 5 working days',
+    features: [
+      'Prepared and filed by our tax team',
+      'Ideal for salaried individuals and routine cases',
+      'Timeline starts after payment and complete documents',
+      'FBR-compliant review before submission',
+    ],
+  },
+  'Priority Filing': {
+    price: 'PKR 5,500',
+    summary: 'For urgent and time-sensitive tax submissions.',
+    timing: '24 to 48 hours',
+    features: [
+      'Priority handling by the tax team',
+      'Faster turnaround for urgent submissions',
+      'Best for clients with a close filing deadline',
+      'Processing depends on timely document submission',
+    ],
+  },
+  'Premium Consultant': {
+    price: 'PKR 14,500',
+    summary: 'One-on-one support from a senior tax consultant.',
+    timing: 'Scheduled consultation and return review',
+    features: [
+      'Zoom or in-person consultation',
+      'Personal guidance from a senior consultant',
+      'Review and improvement of your tax return',
+      'Better understanding of your financial position',
+    ],
+  },
+}
+
+function PlanDetailPage({ plan, onBack, onAction }) {
+  const detail = planDetails[plan] || planDetails['Essential Filing']
+
+  return (
+    <section className="plan-page">
+      <div className="container plan-wrap">
+        <button type="button" className="back-button" onClick={onBack}>← Back to pricing</button>
+        <div className="plan-heading">
+          <div>
+            <span className="eyebrow dark">Selected plan</span>
+            <h1>{plan}</h1>
+            <p className="detail-intro">{detail.summary} Our team follows the same simple flow: create your account, provide your income information, review your return, and complete the submission.</p>
+          </div>
+          <div className="plan-price">
+            <span>Starting from</span>
+            <strong>{detail.price}</strong>
+            <small>{detail.timing}</small>
+          </div>
+        </div>
+
+        <div className="plan-content">
+          <div className="plan-panel">
+            <span className="eyebrow dark">What is included</span>
+            <h2>A clear path from documents to filing.</h2>
+            <ul className="plan-features">
+              {detail.features.map((feature) => <li key={feature}>{feature}</li>)}
+            </ul>
+          </div>
+          <div className="plan-steps">
+            <article><span>01</span><div><h3>Create your account</h3><p>Sign up and verify your mobile number to begin securely.</p></div></article>
+            <article><span>02</span><div><h3>Provide information</h3><p>Answer simple questions about your income and share the required documents.</p></div></article>
+            <article><span>03</span><div><h3>Review and file</h3><p>Our tax team prepares your return for review and approval before submission.</p></div></article>
+          </div>
+        </div>
+
+        <div className="detail-cta">
+          <div><span className="eyebrow dark">Ready to begin?</span><h2>Start your {plan.toLowerCase()} today.</h2></div>
+          <button type="button" className="primary-btn is-active" onClick={() => onAction('Consultation')}>Get started</button>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SignInPage({ onBack }) {
+  const [submitted, setSubmitted] = useState(false)
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
+
+  const switchMode = () => {
+    setIsCreatingAccount((currentMode) => !currentMode)
+    setSubmitted(false)
+  }
+
+  return (
+    <section className="signin-page">
+      <div className="signin-layout">
+        <button type="button" className="back-button signin-back-button" onClick={onBack}>← Back to home</button>
+        <div className="signin-card">
+          <span className="eyebrow dark">Client portal</span>
+          <h1>{isCreatingAccount ? 'Create your account.' : 'Welcome back.'}</h1>
+          <p>{isCreatingAccount ? 'Create a secure account to manage your filing and documents.' : 'Sign in to manage your filing, upload documents, and track your return status.'}</p>
+          {submitted ? (
+            <div className="signin-success">{isCreatingAccount ? 'Your account request is ready. A consultant will help you complete setup.' : 'Your sign-in request is ready. Connect this form to your client portal when authentication is enabled.'}</div>
+          ) : (
+            <form className="signin-form" onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }}>
+              {isCreatingAccount && <label>Full name<input required type="text" placeholder="Your full name" /></label>}
+              <label>Email address<input required type="email" placeholder="you@example.com" /></label>
+              <label>Password<input required type="password" placeholder="Enter your password" /></label>
+              {!isCreatingAccount && <div className="signin-options"><label><input type="checkbox" /> Remember me</label><button type="button">Forgot password?</button></div>}
+              <button type="submit" className="primary-btn signin-submit">{isCreatingAccount ? 'Create account' : 'Sign in'}</button>
+            </form>
+          )}
+          <div className="signin-account-prompt">
+            <span>{isCreatingAccount ? 'Already have an account?' : "Don't have an account?"}</span>
+            <button type="button" onClick={switchMode}>{isCreatingAccount ? 'Sign in' : 'Create an account'}</button>
+          </div>
+          <small className="signin-note">Your consultant can help you complete your secure client portal setup.</small>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ConsultationModal({ plan, onClose }) {
+  const [callType, setCallType] = useState('scheduled')
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setSubmitted(true)
+  }
+
+  return (
+    <div className="consultation-overlay" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <div className="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="consultation-title">
+        <div className="consultation-header">
+          <div className="consultation-title-wrap">
+            <div className="consultation-icon" aria-hidden="true">♧</div>
+            <div>
+              <h2 id="consultation-title">Book a Consultation</h2>
+              <p>Fill in your details and a senior tax consultant will reach out shortly.</p>
+            </div>
+          </div>
+          <button type="button" className="modal-close" onClick={onClose} aria-label="Close consultation form">×</button>
+        </div>
+
+        {submitted ? (
+          <div className="form-success">
+            <span className="success-check">✓</span>
+            <h3>Request received</h3>
+            <p>Thank you. Our tax consultant will contact you shortly about your {plan.toLowerCase()}.</p>
+            <button type="button" className="primary-btn" onClick={onClose}>Close</button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="consultation-body">
+              <div className="contact-column">
+                <span className="form-section-title">Contact information</span>
+                <div className="form-grid">
+                  <label>Full Name <em>*</em><input required type="text" placeholder="Your full name" /></label>
+                  <label>Email Address <em>*</em><input required type="email" placeholder="your@email.com" /></label>
+                  <label>Mobile Number <em>*</em><input required type="tel" placeholder="03xx-xxxxxxx" /></label>
+                  <label>CNIC Number<input type="text" placeholder="xxxxx-xxxxxxx-x" /></label>
+                </div>
+                <fieldset className="call-type-field">
+                  <legend>Preferred Call Time</legend>
+                  <div className="call-type-options">
+                    <label className={callType === 'scheduled' ? 'is-selected' : ''}><input type="radio" name="callType" value="scheduled" checked={callType === 'scheduled'} onChange={() => setCallType('scheduled')} />◉ &nbsp;Schedule a Call</label>
+                    <label className={callType === 'urgent' ? 'is-selected' : ''}><input type="radio" name="callType" value="urgent" checked={callType === 'urgent'} onChange={() => setCallType('urgent')} />◯ &nbsp;Urgent Call</label>
+                  </div>
+                </fieldset>
+                <label className="date-field">Date &amp; Time<input type="datetime-local" /></label>
+                <p className="form-note">Daytime slots (9 AM - 6 PM, Mon-Fri) receive the fastest response.</p>
+              </div>
+              <div className="additional-column">
+                <label>What do you need help with?<textarea defaultValue={`I am interested in the ${plan} plan. `} placeholder="E.g. I have salary + rental income, need help filing my tax return..." /></label>
+              </div>
+            </div>
+            <div className="consultation-footer">
+              <button type="button" className="discard-button" onClick={onClose}>Discard</button>
+              <button type="submit" className="send-button">⌁ &nbsp;Send Request</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function DetailPage({ page, onBack, onAction }) {
   const detail = pageDetails[page] || pageDetails.Services
 
   return (
     <section className="detail-page">
+      <div className="container detail-page-top">
+        <button type="button" className="back-button detail-back-button" onClick={onBack}>← Back to home</button>
+      </div>
       <div className="container detail-wrap">
-        <button type="button" className="back-button" onClick={onBack}>← Back to home</button>
         <span className="eyebrow dark">{detail.label}</span>
         <h1>{detail.title}</h1>
         <p className="detail-intro">{detail.intro}</p>
@@ -132,7 +331,7 @@ function DetailPage({ page, onBack, onAction }) {
               <h2>{item.title}</h2>
               <p>{item.text}</p>
               <span>{item.detail}</span>
-              <button type="button" className="text-link detail-action" onClick={() => onAction(item.title)}>
+              <button type="button" className={`text-link detail-action ${page === 'Pricing' ? 'plan-select-button' : ''}`} onClick={() => onAction(item.title, page)}>
                 {page === 'Pricing' ? 'Choose this plan' : 'Get help with this'} →
               </button>
             </article>
@@ -158,6 +357,20 @@ function App() {
   const [activeService, setActiveService] = useState('Individual Tax Filing')
   const [activeAction, setActiveAction] = useState('Get started')
   const [activePage, setActivePage] = useState('home')
+  const [selectedPlan, setSelectedPlan] = useState('Essential Filing')
+  const [consultationOpen, setConsultationOpen] = useState(false)
+  const [monthlySalary, setMonthlySalary] = useState(100000)
+  const [taxYear, setTaxYear] = useState('2026')
+
+  const annualSalary = Math.max(0, Number(monthlySalary) || 0) * 12
+  const annualTax = annualSalary <= 600000
+    ? 0
+    : annualSalary <= 1200000
+      ? (annualSalary - 600000) * 0.025
+      : 15000 + (annualSalary - 1200000) * 0.125
+  const monthlyTax = annualTax / 12
+  const salaryAfterTax = Math.max(0, Number(monthlySalary) - monthlyTax)
+  const formatCurrency = (amount) => `PKR ${Math.round(amount).toLocaleString('en-PK')}`
 
   const navigateTo = (page) => {
     setActiveNav(page)
@@ -165,10 +378,32 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleAction = (action) => {
+  const navigateToHomeSection = (sectionId) => {
+    setActiveNav('Services')
+    setActivePage('home')
+    window.setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
+  }
+
+  const handleAction = (action, sourcePage) => {
     setActiveAction(action)
+    if (sourcePage === 'Pricing' && planDetails[action]) {
+      setSelectedPlan(action)
+      setActiveNav('Pricing')
+      setActivePage('plan')
+      setConsultationOpen(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
     if (services.some((service) => service.title === action)) {
       setActiveService(action)
+      setActiveNav('Services')
+      setActivePage('Services')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    if (action === 'Consultation') {
+      setConsultationOpen(true)
+      return
     }
     navigateTo(action === 'Individual Tax Filing' ? 'Services' : 'Pricing')
   }
@@ -195,9 +430,12 @@ function App() {
             ))}
           </nav>
 
-          <button type="button" className="nav-button is-active" onClick={() => handleAction('Consultation')}>
-            Book a consultation
-          </button>
+          <div className="nav-actions">
+            <button type="button" className="sign-in-button" onClick={() => navigateTo('signin')}>Sign in</button>
+            <button type="button" className="nav-button is-active" onClick={() => handleAction('Consultation')}>
+              Book a consultation
+            </button>
+          </div>
         </div>
       </header>
 
@@ -330,6 +568,37 @@ function App() {
           </div>
         </section>
 
+        <section id="tax-calculator" className="calculator-section">
+          <div className="container calculator-wrap">
+            <div className="calculator-copy">
+              <span className="eyebrow dark">Calculate your taxes</span>
+              <h2>Estimate your salary tax in seconds.</h2>
+              <p>Enter your monthly salary to get a quick view of annual income, estimated tax, and take-home pay.</p>
+              <span className="calculator-note">This is an estimate. Actual tax may vary based on deductions, allowances, and your filing profile.</span>
+            </div>
+            <div className="calculator-card">
+              <div className="calculator-controls">
+                <label>Monthly Salary (PKR)
+                  <input type="number" min="0" step="1000" value={monthlySalary} onChange={(event) => setMonthlySalary(event.target.value)} />
+                </label>
+                <label>Tax Year
+                  <select value={taxYear} onChange={(event) => setTaxYear(event.target.value)}>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                  </select>
+                </label>
+              </div>
+              <div className="calculator-results">
+                <div><span>Annual salary</span><strong>{formatCurrency(annualSalary)}</strong></div>
+                <div><span>Estimated monthly tax</span><strong>{formatCurrency(monthlyTax)}</strong></div>
+                <div className="result-highlight"><span>Salary after tax</span><strong>{formatCurrency(salaryAfterTax)}</strong></div>
+              </div>
+              <p className="calculator-year-note">Estimate for tax year {taxYear} · Based on salary income only</p>
+            </div>
+          </div>
+        </section>
+
         <section className="why-us-section">
           <div className="container why-grid">
             <div className="why-copy">
@@ -374,11 +643,11 @@ function App() {
             <h2>People trust us to handle important tax decisions.</h2>
             <a
               className="google-review-link"
-              href="https://www.befiler.com/"
+              href="https://www.google.com/search?client=safari&hl=en-us&q=UM%26CO+Karachi"
               target="_blank"
               rel="noreferrer"
             >
-              ★ 5.0 reviews on Befiler · View all reviews
+              ★ 5.0 on Google · View all reviews
             </a>
           </div>
 
@@ -388,8 +657,11 @@ function App() {
                 <div className="stars" aria-label="5 stars">★★★★★</div>
                 <p>“{item.quote}”</p>
                 <div className="testimonial-person">
-                  <strong>{item.name}</strong>
-                  <span>{item.role}</span>
+                  <span className="reviewer-avatar" aria-hidden="true">
+                    <img src={item.image} alt="" onError={(event) => { event.currentTarget.style.display = 'none' }} />
+                    <span>{item.initials}</span>
+                  </span>
+                  <div><strong>{item.name}</strong><span>{item.role}</span></div>
                 </div>
               </article>
             ))}
@@ -423,27 +695,82 @@ function App() {
             <button type="button" className="primary-btn" onClick={() => handleAction('Consultation')}>Schedule a call</button>
           </div>
         </section>
+
+        <section className="location-section">
+          <div className="container location-wrap">
+            <div className="location-copy">
+              <span className="eyebrow dark">Visit UM&amp;CO</span>
+              <h2>Find us in Karachi.</h2>
+              <p>Meet our tax and financial services team at the ICMAP Building in Gulshan-e-Iqbal.</p>
+              <div className="location-details">
+                <div><strong>Address</strong><span>ICMAP Building, ST-18/C ICMAP Avenue, Block 6 Gulshan-e-Iqbal, Karachi, 75300</span></div>
+                <div><strong>Phone</strong><a href="tel:+923488925608">+92 348 8925608</a></div>
+                <div><strong>Hours</strong><span>Mon - Fri · 10 AM - 6 PM</span></div>
+              </div>
+              <a className="location-link" href="https://www.google.com/maps/dir/?api=1&destination=24.9195946,67.0974023" target="_blank" rel="noreferrer">Get directions →</a>
+            </div>
+            <div className="map-frame">
+              <iframe title="UM&CO Karachi location map" loading="lazy" src="https://www.google.com/maps?q=24.9195946,67.0974023&z=15&output=embed"></iframe>
+            </div>
+          </div>
+        </section>
           </>
+        ) : activePage === 'plan' ? (
+          <PlanDetailPage plan={selectedPlan} onBack={() => navigateTo('Pricing')} onAction={handleAction} />
+        ) : activePage === 'signin' ? (
+          <SignInPage onBack={() => navigateTo('home')} />
         ) : (
           <DetailPage page={activePage} onBack={() => navigateTo('home')} onAction={handleAction} />
         )}
       </main>
 
+      {consultationOpen && <ConsultationModal plan={selectedPlan} onClose={() => setConsultationOpen(false)} />}
+
       <footer className="site-footer">
         <div className="container footer-wrap">
-          <div>
+          <div className="footer-intro">
             <button type="button" className="brand footer-brand" aria-label="UM&CO footer brand" onClick={() => navigateTo('home')}>
-              <span className="brand-mark">B</span>
-              <span className="brand-text">UM&CO</span>
+              <img className="footer-logo" src={logoImage} alt="UM&CO logo" />
+              <span className="brand-text">UM&amp;CO</span>
             </button>
-            <p>Helping individuals and businesses file with confidence.</p>
+            <h2>Tax filing made clear, secure, and stress-free.</h2>
+            <p>Helping individuals and businesses file accurately, stay compliant, and plan with confidence.</p>
+            <div className="footer-badges"><span>✓ FBR compliant</span><span>✓ Secure &amp; private</span></div>
           </div>
 
-          <div className="footer-links">
+          <div className="footer-column">
+            <h3>Services</h3>
             <button type="button" onClick={() => handleAction('Individual Tax Filing')}>Income Tax Filing</button>
             <button type="button" onClick={() => handleAction('NTN Registration')}>NTN Registration</button>
+            <button type="button" onClick={() => handleAction('Business Tax Services')}>Business Tax Services</button>
             <button type="button" onClick={() => handleAction('Tax Advisory')}>Tax Advisory</button>
           </div>
+
+          <div className="footer-column">
+            <h3>Explore</h3>
+            <button type="button" onClick={() => navigateTo('Pricing')}>Tax filing plans</button>
+            <button type="button" onClick={() => navigateToHomeSection('tax-calculator')}>Tax calculator</button>
+            <button type="button" onClick={() => navigateTo('Resources')}>FAQs &amp; guides</button>
+            <button type="button" onClick={() => navigateTo('About')}>About UM&amp;CO</button>
+          </div>
+
+          <div className="footer-column footer-contact">
+            <h3>Need support?</h3>
+            <a href="tel:+922138228222">+92 3555210724</a>
+            <a href="mailto:support@umandco.com">support@umandco.com</a>
+            <button type="button" onClick={() => handleAction('Consultation')}>Book a consultation →</button>
+            <span>Mon - Fri · 9 AM - 6 PM</span>
+          </div>
+        </div>
+        <div className="container footer-bottom">
+          <span>© 2026 UM&amp;CO. All rights reserved.</span>
+          <span>Privacy · Terms · Process policy</span>
+          <span className="footer-socials" aria-label="Social media links">
+            <a href="https://www.facebook.com/Befiler.pk" target="_blank" rel="noreferrer" aria-label="Facebook"><span aria-hidden="true">f</span></a>
+            <a href="https://wa.me/923343338888" target="_blank" rel="noreferrer" aria-label="WhatsApp"><span aria-hidden="true">◔</span></a>
+            <a href="https://www.instagram.com/befiler.pk/" target="_blank" rel="noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a>
+            <a href="https://www.linkedin.com/company/befiler/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><span aria-hidden="true">in</span></a>
+          </span>
         </div>
       </footer>
     </div>
