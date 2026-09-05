@@ -55,21 +55,21 @@ const testimonials = [
   {
     quote: 'Excellent services received. Recommended for income tax filing & tax services.',
     name: 'Hasnat Sherzad',
-    initials: 'HS',
+    initials: '',
     image: 'https://lh3.googleusercontent.com/a-/ALV-UjVbuE6XZXescQ4_R3lRs9EzzCpS8ZNBjhF9zsufRFbilgIMcUY9=w96-h96-p-rp-mo-br100',
     role: 'Google review · a week ago',
   },
   {
     quote: 'I had an excellent experience working with UM&CO. He helped me save more than 50% of my taxes and clearly explained where I was overpaying, in a way that was very easy to understand. He was always available whenever I needed guidance and handled everything with professionalism and patience.',
     name: 'Sibtain Shah',
-    initials: 'SS',
+    initials: '',
     image: 'https://lh3.googleusercontent.com/a/ACg8ocI_txwrsD1-TGKilS3vYhSM7sRznw4HN0jFPbDsHR_EsdfOkQ=w96-h96-p-rp-mo-br100',
     role: 'Google review · 8 months ago',
   },
   {
     quote: 'I had an excellent experience working with this firm. Their team is highly professional, knowledgeable, and attentive to detail. They handled my financial matters with great accuracy and ensured full compliance with all regulatory requirements.',
     name: 'Azhar Uddin',
-    initials: 'AU',
+    initials: '',
     image: 'https://lh3.googleusercontent.com/a-/ALV-UjWiOVf5joV-IMyAP8gk0DPtPuv0ib_SNB8pFlbUl6XkFCwliVlS=w96-h96-p-rp-mo-br100',
     role: 'Google review · 4 months ago',
   },
@@ -78,7 +78,14 @@ const testimonials = [
 const faqs = [
   { question: 'What is included in your tax filing service?', answer: 'We handle preparation, compliance review, supporting documentation guidance, and submission support based on your profile.' },
   { question: 'Do you support NTN registration?', answer: 'Yes. We assist with new NTN registration, profile setup, documentation review, and follow-up guidance.' },
+  { question: 'Who needs to file an income tax return in Pakistan?', answer: 'Individuals and businesses who meet the applicable income, registration, or filing requirements should submit a return. We can review your situation and explain what applies to you.' },
+  { question: 'Which documents do I need for filing?', answer: 'Common documents include your CNIC, salary or income records, bank statements, withholding certificates, property or investment details, and records of deductible expenses.' },
+  { question: 'Can you help me become a filer?', answer: 'Yes. We can guide you through NTN registration, account setup, return preparation, and submission so your tax profile is properly organized.' },
   { question: 'How long does processing take?', answer: 'Most filings are completed within a few business days, depending on the complexity and document readiness.' },
+  { question: 'What happens if I missed a filing deadline?', answer: 'We first review your filing history and outstanding obligations, then explain the available correction, late-filing, or submission steps for your case.' },
+  { question: 'Can you file returns for businesses and freelancers?', answer: 'Yes. We support salaried individuals, freelancers, contractors, sole proprietors, and companies with returns and related compliance needs.' },
+  { question: 'Can I amend a return after submitting it?', answer: 'In many cases, an amendment may be possible when an error or omission is identified. Our team can review the submitted return and advise on the correct process.' },
+  { question: 'Is my financial information kept confidential?', answer: 'Yes. We use your information only to provide the requested tax service and follow a privacy-conscious document review process.' },
   { question: 'Can I get advice before filing?', answer: 'Absolutely. Our advisors can walk you through eligibility, deductions, and the best filing pathway for your situation.' },
 ]
 
@@ -361,6 +368,7 @@ function App() {
   const [consultationOpen, setConsultationOpen] = useState(false)
   const [monthlySalary, setMonthlySalary] = useState(100000)
   const [taxYear, setTaxYear] = useState('2026')
+  const [showAllFaqs, setShowAllFaqs] = useState(false)
 
   const annualSalary = Math.max(0, Number(monthlySalary) || 0) * 12
   const annualTax = annualSalary <= 600000
@@ -469,7 +477,7 @@ function App() {
               </div>
 
               <div className="mini-trust">
-                <span>✔ Secure & confidential</span>
+                <span>✔ Secure &amp; confidential</span>
                 <span>✔ Fast turnaround</span>
               </div>
             </div>
@@ -514,6 +522,10 @@ function App() {
         </section>
 
         <section className="stats-section">
+          <div className="container stats-heading">
+            <span className="eyebrow dark">Our impact</span>
+            <h2>Trusted by clients who value clarity.</h2>
+          </div>
           <div className="container stats-grid">
             {stats.map((item) => (
               <div key={item.label} className="stat-box">
@@ -525,7 +537,7 @@ function App() {
         </section>
 
         <section className="services-section">
-          <div className="container section-header">
+          <div className="container section-header center-align">
             <div>
               <span className="eyebrow dark">Our services</span>
               <h2>Tax solutions built for both individuals and businesses.</h2>
@@ -676,12 +688,17 @@ function App() {
             </div>
 
             <div className="faq-list">
-              {faqs.map((faq) => (
+              {faqs.slice(0, showAllFaqs ? faqs.length : 3).map((faq) => (
                 <div key={faq.question} className="faq-item">
                   <h3>{faq.question}</h3>
                   <p>{faq.answer}</p>
                 </div>
               ))}
+              {faqs.length > 4 && (
+                <button type="button" className="text-link faq-more-button" onClick={() => setShowAllFaqs((currentValue) => !currentValue)}>
+                  {showAllFaqs ? 'Show fewer FAQs ↑' : `View ${faqs.length - 3} more FAQs ↓`}
+                </button>
+              )}
             </div>
           </div>
         </section>
