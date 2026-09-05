@@ -232,7 +232,7 @@ function SignInPage({ onBack }) {
           <h1>{isCreatingAccount ? 'Create your account.' : 'Welcome back.'}</h1>
           <p>{isCreatingAccount ? 'Create a secure account to manage your filing and documents.' : 'Sign in to manage your filing, upload documents, and track your return status.'}</p>
           {submitted ? (
-            <div className="signin-success">{isCreatingAccount ? 'Your account request is ready. A consultant will help you complete setup.' : 'Your sign-in request is ready. Connect this form to your client portal when authentication is enabled.'}</div>
+            <div className="signin-success" role="status">{isCreatingAccount ? 'Demo only: your account details were accepted locally. No account was created.' : 'Demo only: your credentials were accepted locally. No sign-in occurred because authentication is not connected.'}</div>
           ) : (
             <form className="signin-form" onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }}>
               {isCreatingAccount && <label>Full name<input required type="text" placeholder="Your full name" /></label>}
@@ -279,8 +279,8 @@ function ConsultationModal({ plan, onClose }) {
         {submitted ? (
           <div className="form-success">
             <span className="success-check">✓</span>
-            <h3>Request received</h3>
-            <p>Thank you. Our tax consultant will contact you shortly about your {plan.toLowerCase()}.</p>
+            <h3>Request prepared</h3>
+            <p>Demo only: your consultation details were accepted locally. No request was sent because a backend is not connected.</p>
             <button type="button" className="primary-btn" onClick={onClose}>Close</button>
           </div>
         ) : (
@@ -547,8 +547,9 @@ function App() {
 
           <div className="container services-grid">
             {services.map((service) => (
-              <article
+              <button
                 key={service.title}
+                type="button"
                 className={`service-card ${activeService === service.title ? 'is-active' : ''}`}
                 onClick={() => handleAction(service.title)}
               >
@@ -556,7 +557,7 @@ function App() {
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
                 <span>{service.detail}</span>
-              </article>
+              </button>
             ))}
           </div>
         </section>
@@ -670,7 +671,7 @@ function App() {
                 <p>“{item.quote}”</p>
                 <div className="testimonial-person">
                   <span className="reviewer-avatar" aria-hidden="true">
-                    <img src={item.image} alt="" onError={(event) => { event.currentTarget.style.display = 'none' }} />
+                    <img src={item.image} alt="" loading="lazy" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.style.display = 'none' }} />
                     <span>{item.initials}</span>
                   </span>
                   <div><strong>{item.name}</strong><span>{item.role}</span></div>
@@ -773,7 +774,7 @@ function App() {
 
           <div className="footer-column footer-contact">
             <h3>Need support?</h3>
-            <a href="tel:+922138228222">+92 3555210724</a>
+            <a href="tel:+923555210724">+92 3555210724</a>
             <a href="mailto:support@umandco.com">support@umandco.com</a>
             <button type="button" onClick={() => handleAction('Consultation')}>Book a consultation →</button>
             <span>Mon - Fri · 9 AM - 6 PM</span>
